@@ -2,6 +2,19 @@ import { createArvoContract } from 'arvo-core';
 import { createArvoEventHandler, type EventHandlerFactory } from 'arvo-event-handler';
 import { z } from 'zod';
 
+/**
+ * Calculator event handler for mathematical operations that are
+ * computationally intensive or difficult for agents to execute directly.
+ *
+ * This handler accepts JavaScript mathematical expressions and evaluates
+ * them within a strictly sandboxed environment. Within the Arvo event-driven
+ * architecture, this handler can be invoked by users, ArvoOrchestrators,
+ * ArvoResumables, and Agentic ArvoResumables through the event broker.
+ *
+ * The toolUseId$$ passthrough field enables participation in agentic workflows
+ * by providing the correlation identifier required by LLMs to track tool call
+ * execution across the request-response cycle.
+ */
 export const calculatorContract = createArvoContract({
   uri: '#/demo/calculator/execute',
   type: 'com.calculator.execute',
@@ -16,12 +29,14 @@ export const calculatorContract = createArvoContract({
               'Math functions (sqrt, pow, sin, cos, tan, log, exp, abs, round, min, max, floor, ceil), ' +
               'and constants (PI, E). Examples: "2 + 2", "sqrt(16) * 5", "PI * pow(2, 3)", "sin(PI/2)"',
           ),
+        // This is a usefull field when working with AI Agents for tool call correlation
         toolUseId$$: z.string().optional(),
       }),
       emits: {
         'evt.calculator.execute.success': z.object({
           result: z.number().describe('Computed result of the mathematical expression as a finite number.'),
           expression: z.string().describe('Original expression that was evaluated, returned for verification.'),
+          // This is a usefull field when working with AI Agents for tool call correlation
           toolUseId$$: z.string().optional(),
         }),
       },

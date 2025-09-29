@@ -12,7 +12,7 @@ Adhere strictly to the following JSON output guidelines:
   9. Use consistent naming conventions for keys (e.g., camelCase or snake_case).
   10. Do not use comments within the JSON.
 The output will be parsed using 'json.loads()' in Python, so strict JSON compliance is crucial.
-Return the final response in the following format:
+Return the final response as per the structure infered from the following JSON Schema 7 requirement:
 ${JSON.stringify(jsonRequirement)}
 `;
 

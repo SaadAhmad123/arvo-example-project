@@ -1,14 +1,11 @@
 import type { ArvoEvent } from 'arvo-core';
-import { greetingHandler } from './handlers/greeting.handler.js';
-import { greetingOrchestrator } from './handlers/greeting.orchestrator.js';
-import { greetingResumable } from './handlers/greeting.resumable.js';
 import { createSimpleEventBroker, SimpleMachineMemory } from 'arvo-event-handler';
-import { addHandler } from './handlers/add.handler.js';
 import { findDomainMcpAgent } from './handlers/agent.mcp.findadomain.js';
 import { calculatorAgent } from './handlers/agent.calculator.js';
 import { calculatorHandler } from './handlers/calculator.handler.js';
 import { webInfoAgent } from './handlers/agent.webinfo.js';
 import { astroDocsMcpAgent } from './handlers/agent.mcp.astro.docs.js';
+import { fibonacciHandler } from './handlers/fibonacci.handler.js';
 
 export const execute = async (event: ArvoEvent): Promise<ArvoEvent | null> => {
   /**
@@ -27,15 +24,12 @@ export const execute = async (event: ArvoEvent): Promise<ArvoEvent | null> => {
    * for rapid development, limited-scoped projects, and testing
    */
   const { resolve } = createSimpleEventBroker([
-    addHandler(),
     calculatorHandler(),
-    greetingHandler(),
-    greetingResumable({ memory }),
-    greetingOrchestrator({ memory }),
     findDomainMcpAgent.handlerFactory(),
     calculatorAgent.handlerFactory({ memory }),
     astroDocsMcpAgent.handlerFactory(),
     webInfoAgent.handlerFactory({ memory }),
+    fibonacciHandler(),
   ]);
   return await resolve(event);
 };
