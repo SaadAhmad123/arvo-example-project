@@ -22,7 +22,7 @@ export const testCalculatorAgent = async () => {
     source: 'test.test.test',
     data: {
       parentSubject$$: null,
-      message: 'What can you do?',
+      message: 'Can you sum the square roots of 1,2,3,4,5,6,7,8,9',
     },
   });
   await execute(event).then((e) => console.log(e));
@@ -46,9 +46,9 @@ export const testWebInfoAgent = async () => {
 // testing frameworks like jest
 export const testArvoDemo = async () => {
   try {
-    await testFindDomainMcpAgent();
+    //await testFindDomainMcpAgent();
     await testCalculatorAgent();
-    await testWebInfoAgent();
+    //await testWebInfoAgent();
   } catch (e) {
     console.log(e);
   }
